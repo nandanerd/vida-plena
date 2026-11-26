@@ -27,7 +27,7 @@ function bancoVazio() {
         historicoEntradas: []
     };
 }
-
+ 
 function readDB() {
     if (!fs.existsSync(DB_FILE)) {
         const db = bancoVazio();
