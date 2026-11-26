@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#123d50">
+    <title>Triagem | Hospital Vida Plena</title>
+    <link rel="stylesheet" href="/frontend/triagem.css">
+</head>
+
+<body class="triagem-page">
+
+    <header class="setor-header">
+        <div class="setor-brand">
+            <div class="setor-logo">VP</div>
+            <div>
+                <h1>Hospital Vida Plena</h1>
+                <p>Setor de triagem</p>
+            </div>
+        </div>
+
+        <a href="/index.html" class="btn-sair">Sair do sistema</a>
+    </header>
+
+    <main class="setor-container">
+
+        <section class="setor-welcome">
+            <span class="setor-tag">AVALIAÇÃO INICIAL</span>
+            <h2>Triagem de pacientes</h2>
+            <p>Registre os sinais e sintomas para encaminhar o paciente ao médico.</p>
+        </section>
+
+        <section class="setor-card">
+
+            <div class="setor-section-header">
+                <div>
+                    <h2>Dados da triagem</h2>
+                    <p>Preencha as informações clínicas iniciais.</p>
+                </div>
+            </div>
+
+            <form id="formTriagem">
+
+                <div class="form-group">
+                    <label for="nome">Nome do paciente</label>
+                    <input
+                        type="text"
+                        id="nome"
+                        placeholder="Nome completo do paciente"
+                        required
+                    >
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="temperatura">Temperatura (°C)</label>
+                        <input
+                            type="number"
+                            id="temperatura"
+                            placeholder="Ex.: 36.5"
+                            min="30"
+                            max="45"
+                            step="0.1"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="risco">Classificação de risco</label>
+                        <select id="risco" required>
+                            <option value="">Selecione</option>
+                            <option value="vermelho">Vermelho - Emergência</option>
+                            <option value="laranja">Laranja - Muito urgente</option>
+                            <option value="amarelo">Amarelo - Urgente</option>
+                            <option value="verde">Verde - Pouco urgente</option>
+                            <option value="azul">Azul - Não urgente</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="sintoma">Sintomas apresentados</label>
+                    <textarea
+                        id="sintoma"
+                        rows="4"
+                        placeholder="Descreva os sintomas relatados pelo paciente..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="alergia">Alergias conhecidas</label>
+                    <input
+                        type="text"
+                        id="alergia"
+                        placeholder="Informe as alergias ou escreva 'Nenhuma'"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="observacao">Observações adicionais</label>
+                    <textarea
+                        id="observacao"
+                        rows="3"
+                        placeholder="Informações adicionais relevantes..."
+                    ></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="btnEnviar" class="btn-primary">
+                        Finalizar triagem
+                    </button>
+
+                    <button type="reset" class="btn-secondary">
+                        Limpar formulário
+                    </button>
+                </div>
+
+            </form>
+
+            <p id="mensagem" class="admin-message" role="status"></p>
+
+        </section>
+
+        <section class="setor-info">
+            <div class="setor-info-icon">i</div>
+            <div>
+                <strong>Orientação</strong>
+                <p>Confira os dados antes de finalizar. Após o envio, o paciente ficará disponível para atendimento médico.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const form = document.getElementById("formTriagem");
+        const mensagem = document.getElementById("mensagem");
+        const btnEnviar = document.getElementById("btnEnviar");
+
+        function mostrarMensagem(texto, sucesso = true) {
+            mensagem.textContent = texto;
+            mensagem.className = sucesso
+                ? "admin-message success"
+                : "admin-message error";
+        }
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const nome = document.getElementById("nome").value.trim();
+            const temperatura = Number(
+                document.getElementById("temperatura").value
+            );
+            const risco = document.getElementById("risco").value;
+            const sintoma = document.getElementById("sintoma").value.trim();
+            const alergia =
+                document.getElementById("alergia").value.trim() || "Não informado";
+            const observacao =
+                document.getElementById("observacao").value.trim();
+
+            if (!nome || !sintoma || !risco || !temperatura) {
+                mostrarMensagem("Preencha os campos obrigatórios.", false);
+                return;
+            }
+
+            if (temperatura < 30 || temperatura > 45) {
+                mostrarMensagem("Informe uma temperatura válida.", false);
+                return;
+            }
+
+            btnEnviar.disabled = true;
+            btnEnviar.textContent = "Enviando triagem...";
+
+            try {
+                const resposta = await fetch("/triagem", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        nome,
+                        temperatura,
+                        risco,
+                        sintoma,
+                        alergia,
+                        observacao
+                    })
+                });
+
+                const dados = await resposta.json();
+
+                if (!resposta.ok) {
+                    throw new Error(
+                        dados.mensagem || dados.erro || "Não foi possível registrar a triagem."
+                    );
+                }
+
+                mostrarMensagem("Triagem registrada com sucesso! Paciente encaminhado ao médico.");
+
+                form.reset();
+
+            } catch (erro) {
+                mostrarMensagem(erro.message, false);
+            } finally {
+                btnEnviar.disabled = false;
+                btnEnviar.textContent = "Finalizar triagem";
+            }
+        });
+    </script>
+
+</body>
+</html>

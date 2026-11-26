@@ -1,0 +1,371 @@
+
+/* =====================================================
+   HOSPITAL VIDA PLENA
+   LOGIN - IDENTIDADE VISUAL INSTITUCIONAL
+===================================================== */
+
+.login-page {
+    --login-primary: #123d50;
+    --login-dark: #0b2939;
+    --login-secondary: #1b6073;
+    --login-accent: #32ad9d;
+    --login-text: #243b4a;
+    --login-muted: #84949f;
+
+    min-height: 100vh;
+    margin: 0;
+    padding: 30px 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(50, 173, 157, 0.17),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            rgba(42, 113, 143, 0.22),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #0b2939 0%,
+            #123d50 55%,
+            #164b60 100%
+        );
+}
+
+/* =====================================================
+   CONTAINER PRINCIPAL
+===================================================== */
+
+.login-page .login-container {
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+}
+
+/* =====================================================
+   IDENTIDADE DO HOSPITAL
+===================================================== */
+
+.login-page .login-brand {
+    text-align: center;
+    color: #ffffff;
+}
+
+.login-page .login-logo {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+    border-radius: 21px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.18),
+        inset 0 0 0 5px rgba(50, 173, 157, 0.12);
+
+    position: relative;
+}
+
+.login-page .login-logo::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 25px;
+}
+
+.login-page .login-logo span {
+    color: var(--login-primary);
+    font-size: 26px;
+    font-weight: 850;
+    letter-spacing: -2px;
+}
+
+.login-page .login-brand h1 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 27px;
+    font-weight: 750;
+    letter-spacing: -0.5px;
+}
+
+.login-page .login-brand p {
+    margin: 9px 0 0;
+    color: #bad0d9;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+}
+
+/* =====================================================
+   CARTÃO DE LOGIN
+===================================================== */
+
+.login-page .login-card {
+    width: 100%;
+    padding: 37px;
+    box-sizing: border-box;
+
+    background: #ffffff;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 15px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.22),
+        0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* =====================================================
+   CABEÇALHO DO LOGIN
+===================================================== */
+
+.login-page .login-header {
+    margin-bottom: 29px;
+}
+
+.login-page .login-header h2 {
+    color: var(--login-primary);
+    font-size: 23px;
+    font-weight: 750;
+    margin: 0 0 8px;
+}
+
+.login-page .login-header p {
+    color: var(--login-muted);
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* =====================================================
+   FORMULÁRIO
+===================================================== */
+
+.login-page #formLogin {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.login-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.login-page .form-group label {
+    color: #304c5c;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* CAMPOS */
+
+.login-page .form-group input {
+    width: 100%;
+    height: 49px;
+    padding: 0 14px;
+    box-sizing: border-box;
+
+    background: #f7fafb;
+    border: 1px solid #dce5eb;
+    border-radius: 7px;
+
+    color: #294252;
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+    transition: 0.25s;
+}
+
+.login-page .form-group input::placeholder {
+    color: #a1afb9;
+}
+
+.login-page .form-group input:hover {
+    border-color: #b4cbd4;
+}
+
+.login-page .form-group input:focus {
+    background: #ffffff;
+    border-color: var(--login-accent);
+    box-shadow: 0 0 0 3px rgba(50, 173, 157, 0.12);
+}
+
+/* =====================================================
+   CAMPO DE SENHA
+===================================================== */
+
+.login-page .password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.login-page .password-wrapper input {
+    padding-right: 80px;
+}
+
+.login-page .toggle-password {
+    position: absolute;
+    right: 12px;
+
+    background: transparent;
+    border: none;
+
+    color: var(--login-secondary);
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+    padding: 8px;
+    transition: 0.2s;
+}
+
+.login-page .toggle-password:hover {
+    color: var(--login-accent);
+}
+
+/* =====================================================
+   MENSAGEM DE ERRO
+===================================================== */
+
+.login-page .login-error {
+    display: none;
+    margin: -5px 0 0;
+    padding: 12px 14px;
+
+    color: #a43838;
+    background: #fff0ef;
+    border: 1px solid #f1ceca;
+    border-radius: 7px;
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.login-page .login-error:not(:empty) {
+    display: block;
+}
+
+/* =====================================================
+   BOTÃO ENTRAR
+===================================================== */
+
+.login-page .btn-login {
+    width: 100%;
+    min-height: 50px;
+
+    margin-top: 3px;
+
+    background: linear-gradient(
+        110deg,
+        #123d50,
+        #1b6073
+    );
+
+    color: #ffffff;
+    border: none;
+    border-radius: 7px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 750;
+    letter-spacing: 0.3px;
+
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.login-page .btn-login:hover {
+    background: linear-gradient(
+        110deg,
+        #1b6073,
+        #238778
+    );
+
+    box-shadow: 0 6px 17px rgba(18, 61, 80, 0.20);
+    transform: translateY(-2px);
+}
+
+.login-page .btn-login:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* =====================================================
+   RODAPÉ
+===================================================== */
+
+.login-page .login-footer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-top: 29px;
+    padding-top: 20px;
+
+    border-top: 1px solid #e9eef1;
+
+    color: #91a0aa;
+    font-size: 11px;
+}
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+@media (max-width: 500px) {
+
+    .login-page {
+        padding: 25px 16px;
+    }
+
+    .login-page .login-container {
+        gap: 24px;
+    }
+
+    .login-page .login-logo {
+        width: 65px;
+        height: 65px;
+    }
+
+    .login-page .login-brand h1 {
+        font-size: 23px;
+    }
+
+    .login-page .login-card {
+        padding: 27px 21px;
+    }
+
+    .login-page .login-header h2 {
+        font-size: 21px;
+    }
+}
+
+@media (max-width: 350px) {
+
+    .login-page .login-footer {
+        font-size: 10px;
+        gap: 5px;
+    }
+}

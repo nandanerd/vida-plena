@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#123d50">
+    <title>Medicações | Hospital Vida Plena</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="medicacoes-page">
+
+    <header class="setor-header">
+        <div class="setor-brand">
+            <div class="setor-logo">VP</div>
+            <div>
+                <h1>Hospital Vida Plena</h1>
+                <p>Controle de medicações</p>
+            </div>
+        </div>
+
+        <a href="/index.html" class="btn-sair">Sair do sistema</a>
+    </header>
+
+    <main class="setor-container">
+
+        <section class="setor-welcome">
+            <span class="setor-tag">REGISTROS CLÍNICOS</span>
+            <h2>Medicações prescritas</h2>
+            <p>Consulte o histórico de medicamentos registrados nas consultas médicas.</p>
+        </section>
+
+        <section class="setor-card">
+
+            <div class="setor-section-header">
+                <div>
+                    <h2>Histórico de prescrições</h2>
+                    <p>Medicamentos prescritos no hospital.</p>
+                </div>
+
+                <button
+                    type="button"
+                    id="btnAtualizar"
+                    class="btn-secondary"
+                >
+                    Atualizar
+                </button>
+            </div>
+
+            <div class="medicacoes-resumo">
+                <div class="medicacoes-resumo-item">
+                    <span>Total de prescrições</span>
+                    <strong id="totalPrescricoes">0</strong>
+                </div>
+            </div>
+
+            <div class="medicacoes-lista" id="listaMedicacoes">
+                <p class="estado-vazio">Carregando prescrições...</p>
+            </div>
+
+            <p id="mensagem" class="admin-message" role="status"></p>
+
+        </section>
+
+    </main>
+
+    <script>
+        const listaMedicacoes = document.getElementById("listaMedicacoes");
+        const totalPrescricoes = document.getElementById("totalPrescricoes");
+        const mensagem = document.getElementById("mensagem");
+
+        function criarElemento(tag, texto, classe) {
+            const elemento = document.createElement(tag);
+            elemento.textContent = texto;
+
+            if (classe) {
+                elemento.className = classe;
+            }
+
+            return elemento;
+        }
+
+        function formatarData(data) {
+            if (!data) return "Data não informada";
+
+            const dataConvertida = new Date(data);
+
+            if (Number.isNaN(dataConvertida.getTime())) {
+                return String(data);
+            }
+
+            return dataConvertida.toLocaleString("pt-BR");
+        }
+
+        function criarCampo(rotulo, valor) {
+            const grupo = document.createElement("div");
+            grupo.className = "medicacao-campo";
+
+            grupo.appendChild(
+                criarElemento("span", rotulo, "medicacao-label")
+            );
+
+            grupo.appendChild(
+                criarElemento("strong", valor || "Não informado")
+            );
+
+            return grupo;
+        }
+
+        async function carregarMedicacoes() {
+            listaMedicacoes.replaceChildren(
+                criarElemento(
+                    "p",
+                    "Carregando prescrições...",
+                    "estado-vazio"
+                )
+            );
+
+            mensagem.textContent = "";
+
+            try {
+                const resposta = await fetch("/medicacoes");
+
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível carregar as prescrições.");
+                }
+
+                const dados = await resposta.json();
+
+                const prescricoes = Array.isArray(dados) ? dados : [];
+
+                totalPrescricoes.textContent = prescricoes.length;
+
+                listaMedicacoes.replaceChildren();
+
+                if (prescricoes.length === 0) {
+                    listaMedicacoes.appendChild(
+                        criarElemento(
+                            "p",
+                            "Nenhuma medicação prescrita até o momento.",
+                            "estado-vazio"
+                        )
+                    );
+                    return;
+                }
+
+                prescricoes.slice().reverse().forEach(prescricao => {
+                    const card = document.createElement("article");
+                    card.className = "medicacao-card";
+
+                    const cabecalho = document.createElement("div");
+                    cabecalho.className = "medicacao-card-header";
+
+                    const titulo = criarElemento(
+                        "h3",
+                        prescricao.medicacao || "Medicamento não informado"
+                    );
+
+                    const data = criarElemento(
+                        "span",
+                        formatarData(prescricao.data),
+                        "medicacao-data"
+                    );
+
+                    cabecalho.append(titulo, data);
+
+                    const campos = document.createElement("div");
+                    campos.className = "medicacao-campos";
+
+                    campos.appendChild(
+                        criarCampo(
+                            "Paciente",
+                            prescricao.paciente
+                        )
+                    );
+
+                    campos.appendChild(
+                        criarCampo(
+                            "Diagnóstico",
+                            prescricao.diagnostico
+                        )
+                    );
+
+                    campos.appendChild(
+                        criarCampo(
+                            "Quantidade retirada",
+                            prescricao.quantidadeRetirada != null
+                                ? prescricao.quantidadeRetirada + " unidade(s)"
+                                : "Não informado"
+                        )
+                    );
+
+                    if (prescricao.unidade) {
+                        campos.appendChild(
+                            criarCampo("Unidade", prescricao.unidade)
+                        );
+                    }
+
+                    card.appendChild(cabecalho);
+                    card.appendChild(campos);
+
+                    if (prescricao.obs) {
+                        const observacoes = document.createElement("div");
+                        observacoes.className = "medicacao-observacoes";
+
+                        observacoes.appendChild(
+                            criarElemento("strong", "Orientações e observações")
+                        );
+
+                        observacoes.appendChild(
+                            criarElemento("p", prescricao.obs)
+                        );
+
+                        card.appendChild(observacoes);
+                    }
+
+                    listaMedicacoes.appendChild(card);
+                });
+
+            } catch (erro) {
+                listaMedicacoes.replaceChildren(
+                    criarElemento("p", erro.message, "estado-vazio")
+                );
+
+                mensagem.textContent = erro.message;
+                mensagem.className = "admin-message error";
+            }
+        }
+
+        document.getElementById("btnAtualizar").addEventListener(
+            "click",
+            carregarMedicacoes
+        );
+
+        carregarMedicacoes();
+    </script>
+
+</body>
+</html>

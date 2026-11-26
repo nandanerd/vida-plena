@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#123d50">
+    <title>Login | Hospital Vida Plena</title>
+   <link rel="stylesheet" href="/frontend/css/login.css">
+</head>
+
+<body class="login-page">
+
+    <main class="login-container">
+
+        <section class="login-brand">
+            <div class="login-logo">
+                <span>VP</span>
+            </div>
+
+            <h1>Hospital Vida Plena</h1>
+            <p>Cuidar de você é nossa prioridade.</p>
+        </section>
+
+        <section class="login-card">
+
+            <div class="login-header">
+                <h2>Acessar sistema</h2>
+                <p>Entre com suas credenciais para continuar.</p>
+            </div>
+
+            <form id="formLogin">
+
+                <div class="form-group">
+                    <label for="usuario">Usuário</label>
+                    <input
+                        type="text"
+                        id="usuario"
+                        name="usuario"
+                        placeholder="Digite seu usuário"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+
+                    <div class="password-wrapper">
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            placeholder="Digite sua senha"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="toggleSenha"
+                            class="toggle-password"
+                            aria-label="Mostrar senha"
+                        >
+                            Mostrar
+                        </button>
+                    </div>
+                </div>
+
+                <p id="mensagemErro" class="login-error" role="alert"></p>
+
+                <button type="submit" id="btnEntrar" class="btn-login">
+                    Entrar no sistema
+                </button>
+
+            </form>
+
+            <div class="login-footer">
+                <span>Hospital Vida Plena</span>
+                <span>·</span>
+                <span>Sistema de Gestão Hospitalar</span>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        const formLogin = document.getElementById("formLogin");
+        const campoUsuario = document.getElementById("usuario");
+        const campoSenha = document.getElementById("senha");
+        const mensagemErro = document.getElementById("mensagemErro");
+        const btnEntrar = document.getElementById("btnEntrar");
+        const toggleSenha = document.getElementById("toggleSenha");
+
+        // Mostrar ou ocultar senha
+        toggleSenha.addEventListener("click", () => {
+            const senhaVisivel = campoSenha.type === "text";
+
+            campoSenha.type = senhaVisivel ? "password" : "text";
+            toggleSenha.textContent = senhaVisivel ? "Mostrar" : "Ocultar";
+            toggleSenha.setAttribute(
+                "aria-label",
+                senhaVisivel ? "Mostrar senha" : "Ocultar senha"
+            );
+        });
+
+        // Login
+        formLogin.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            mensagemErro.textContent = "";
+            btnEntrar.disabled = true;
+            btnEntrar.textContent = "Verificando...";
+
+            const usuario = campoUsuario.value.trim();
+            const senha = campoSenha.value;
+
+            try {
+                const resposta = await fetch("/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        usuario,
+                        senha
+                    })
+                });
+
+                const dados = await resposta.json();
+
+                if (!resposta.ok || !dados.sucesso) {
+                    throw new Error(
+                        dados.mensagem || dados.erro || "Usuário ou senha incorretos."
+                    );
+                }
+
+                // Redirecionamento conforme o tipo de usuário
+                const paginas = {
+                    medico: "/medico.html",
+                    triagem: "/triagem.html",
+                    atendimento: "/atendimento.html",
+                    admin: "/admin.html"
+                };
+
+                const destino = paginas[dados.tipo];
+
+                if (!destino) {
+                    throw new Error("Tipo de usuário não reconhecido.");
+                }
+
+                window.location.href = destino;
+
+            } catch (erro) {
+                mensagemErro.textContent =
+                    erro.message || "Não foi possível conectar ao servidor.";
+
+                btnEntrar.disabled = false;
+                btnEntrar.textContent = "Entrar no sistema";
+            }
+        });
+
+        // Atalho administrativo: Ctrl + Alt + A
+        document.addEventListener("keydown", (event) => {
+            if (
+                event.ctrlKey &&
+                event.altKey &&
+                event.key.toLowerCase() === "a"
+            ) {
+                window.location.href = "/admin.html";
+            }
+        });
+    </script>
+
+</body>
+</html>

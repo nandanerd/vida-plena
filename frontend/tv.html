@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#123d50">
+    <title>Painel de Chamadas | Hospital Vida Plena</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="tv-page">
+
+    <header class="tv-header">
+
+        <div class="tv-brand">
+            <div class="tv-logo">VP</div>
+
+            <div>
+                <h1>Hospital Vida Plena</h1>
+                <p>Painel de atendimento</p>
+            </div>
+        </div>
+
+        <div class="tv-clock">
+            <span id="hora">00:00:00</span>
+            <small id="data">Carregando data...</small>
+        </div>
+
+    </header>
+
+    <main class="tv-container">
+
+        <section class="tv-chamada-principal">
+
+            <div class="tv-chamada-titulo">
+                <span class="tv-indicador"></span>
+                <h2>CHAMADA ATUAL</h2>
+            </div>
+
+            <div id="chamadaAtual" class="tv-chamada-conteudo">
+
+                <p class="tv-aguardando">Aguardando próxima chamada</p>
+
+            </div>
+
+        </section>
+
+        <section class="tv-historico">
+
+            <div class="tv-historico-header">
+                <div>
+                    <h2>Últimas chamadas</h2>
+                    <p>Acompanhe os atendimentos recentes.</p>
+                </div>
+            </div>
+
+            <div class="tv-historico-lista" id="historicoChamadas">
+
+                <p class="tv-aguardando">Nenhuma chamada registrada.</p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="tv-footer">
+        <span>Hospital Vida Plena</span>
+        <span> · </span>
+        <span>Saúde, cuidado e compromisso.</span>
+    </footer>
+
+    <script>
+        const chamadaAtual = document.getElementById("chamadaAtual");
+        const historicoChamadas = document.getElementById("historicoChamadas");
+
+        function atualizarRelogio() {
+            const agora = new Date();
+
+            document.getElementById("hora").textContent =
+                agora.toLocaleTimeString("pt-BR");
+
+            document.getElementById("data").textContent =
+                agora.toLocaleDateString("pt-BR", {
+                    weekday: "long",
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric"
+                });
+        }
+
+        function criarElemento(tag, texto, classe) {
+            const elemento = document.createElement(tag);
+            elemento.textContent = texto;
+
+            if (classe) {
+                elemento.className = classe;
+            }
+
+            return elemento;
+        }
+
+        function obterNomePaciente(chamada) {
+            return chamada?.paciente ||
+                chamada?.nome ||
+                "Paciente";
+        }
+
+        function obterConsultorio(chamada) {
+            return chamada?.consultorio ||
+                chamada?.sala ||
+                chamada?.destino ||
+                "Consultório";
+        }
+
+        function renderizarChamada(chamada) {
+            chamadaAtual.replaceChildren();
+
+            if (!chamada) {
+                chamadaAtual.appendChild(
+                    criarElemento(
+                        "p",
+                        "Aguardando próxima chamada",
+                        "tv-aguardando"
+                    )
+                );
+                return;
+            }
+
+            const nome = criarElemento(
+                "h3",
+                obterNomePaciente(chamada),
+                "tv-paciente-nome"
+            );
+
+            const destino = document.createElement("div");
+            destino.className = "tv-destino";
+
+            destino.appendChild(
+                criarElemento("span", "DIRIJA-SE AO", "tv-destino-label")
+            );
+
+            destino.appendChild(
+                criarElemento(
+                    "strong",
+                    obterConsultorio(chamada),
+                    "tv-consultorio"
+                )
+            );
+
+            chamadaAtual.append(nome, destino);
+        }
+
+        function renderizarHistorico(historico) {
+            historicoChamadas.replaceChildren();
+
+            if (!Array.isArray(historico) || historico.length === 0) {
+                historicoChamadas.appendChild(
+                    criarElemento(
+                        "p",
+                        "Nenhuma chamada registrada.",
+                        "tv-aguardando"
+                    )
+                );
+                return;
+            }
+
+            historico.slice(0, 5).forEach(chamada => {
+                const item = document.createElement("article");
+                item.className = "tv-historico-item";
+
+                item.appendChild(
+                    criarElemento(
+                        "strong",
+                        obterNomePaciente(chamada),
+                        "tv-historico-paciente"
+                    )
+                );
+
+                item.appendChild(
+                    criarElemento(
+                        "span",
+                        obterConsultorio(chamada),
+                        "tv-historico-destino"
+                    )
+                );
+
+                historicoChamadas.appendChild(item);
+            });
+        }
+
+        async function carregarChamadas() {
+            try {
+                const resposta = await fetch("/tv/chamada", {
+                    cache: "no-store"
+                });
+
+                if (!resposta.ok) {
+                    throw new Error("Falha ao consultar chamadas.");
+                }
+
+                const dados = await resposta.json();
+
+                renderizarChamada(dados.chamadaAtual || null);
+
+                renderizarHistorico(
+                    dados.historicoChamadas || []
+                );
+
+            } catch (erro) {
+                console.error("Erro ao atualizar painel:", erro);
+            }
+        }
+
+        atualizarRelogio();
+        carregarChamadas();
+
+        setInterval(atualizarRelogio, 1000);
+        setInterval(carregarChamadas, 3000);
+    </script>
+
+</body>
+</html>

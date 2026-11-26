@@ -1,0 +1,481 @@
+
+/* =====================================================
+   HOSPITAL VIDA PLENA
+   SETOR DE TRIAGEM - IDENTIDADE VISUAL
+===================================================== */
+
+.triagem-page {
+    --tri-primary: #123d50;
+    --tri-secondary: #1b6073;
+    --tri-accent: #28a99a;
+    --tri-bg: #edf3f6;
+    --tri-text: #263e4d;
+    --tri-muted: #7b8e99;
+    --tri-border: #dce6eb;
+
+    margin: 0;
+    min-height: 100vh;
+    background: var(--tri-bg);
+    color: var(--tri-text);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* =====================================================
+   CABEÇALHO
+===================================================== */
+
+.triagem-page .setor-header {
+    width: 100%;
+    min-height: 88px;
+    padding: 16px 7%;
+    background: var(--tri-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    box-shadow: 0 4px 20px rgba(18, 61, 80, 0.16);
+}
+
+.triagem-page .setor-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.triagem-page .setor-logo {
+    width: 49px;
+    height: 49px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #ffffff;
+    color: var(--tri-primary);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.triagem-page .setor-brand h1 {
+    color: #ffffff;
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.triagem-page .setor-brand p {
+    color: #b9d0d9;
+    font-size: 12px;
+    margin: 4px 0 0;
+    letter-spacing: 0.5px;
+}
+
+/* BOTÃO SAIR */
+
+.triagem-page .btn-sair {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 19px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 7px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.triagem-page .btn-sair:hover {
+    background: #ffffff;
+    color: var(--tri-primary);
+}
+
+/* =====================================================
+   CONTEÚDO PRINCIPAL
+===================================================== */
+
+.triagem-page .setor-container {
+    width: 100%;
+    max-width: 950px;
+    margin: 48px auto;
+    padding: 0 25px;
+}
+
+/* =====================================================
+   APRESENTAÇÃO
+===================================================== */
+
+.triagem-page .setor-welcome {
+    margin-bottom: 30px;
+}
+
+.triagem-page .setor-tag {
+    display: inline-block;
+    padding: 7px 13px;
+    border-radius: 5px;
+    background: #d8eeeb;
+    color: #197c70;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+}
+
+.triagem-page .setor-welcome h2 {
+    margin: 0 0 10px;
+    color: var(--tri-primary);
+    font-size: 29px;
+    font-weight: 750;
+    letter-spacing: -0.7px;
+}
+
+.triagem-page .setor-welcome p {
+    margin: 0;
+    color: var(--tri-muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* =====================================================
+   CARTÃO PRINCIPAL
+===================================================== */
+
+.triagem-page .setor-card {
+    background: #ffffff;
+    padding: 35px;
+    border: 1px solid var(--tri-border);
+    border-radius: 13px;
+    box-shadow: 0 8px 30px rgba(29, 62, 79, 0.055);
+}
+
+/* CABEÇALHO DO CARTÃO */
+
+.triagem-page .setor-section-header {
+    padding-bottom: 23px;
+    margin-bottom: 27px;
+    border-bottom: 1px solid #e9eff2;
+}
+
+.triagem-page .setor-section-header h2 {
+    color: var(--tri-primary);
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 0 7px;
+}
+
+.triagem-page .setor-section-header p {
+    color: var(--tri-muted);
+    font-size: 13px;
+    margin: 0;
+}
+
+/* =====================================================
+   FORMULÁRIO
+===================================================== */
+
+.triagem-page #formTriagem {
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+}
+
+.triagem-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.triagem-page .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.triagem-page .form-group label {
+    color: #304c5c;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* INPUTS E SELECTS */
+
+.triagem-page .form-group input,
+.triagem-page .form-group select,
+.triagem-page .form-group textarea {
+    width: 100%;
+    padding: 13px 15px;
+    background: #f8fafb;
+    border: 1px solid #dce6eb;
+    border-radius: 7px;
+    color: #294252;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: 0.25s;
+}
+
+.triagem-page .form-group input,
+.triagem-page .form-group select {
+    height: 49px;
+}
+
+.triagem-page .form-group textarea {
+    min-height: 105px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.triagem-page .form-group input::placeholder,
+.triagem-page .form-group textarea::placeholder {
+    color: #a2b0ba;
+}
+
+.triagem-page .form-group input:hover,
+.triagem-page .form-group select:hover,
+.triagem-page .form-group textarea:hover {
+    border-color: #a9c5d0;
+}
+
+.triagem-page .form-group input:focus,
+.triagem-page .form-group select:focus,
+.triagem-page .form-group textarea:focus {
+    background: #ffffff;
+    border-color: var(--tri-accent);
+    box-shadow: 0 0 0 3px rgba(40, 169, 154, 0.11);
+}
+
+/* =====================================================
+   CLASSIFICAÇÃO DE RISCO
+===================================================== */
+
+.triagem-page #risco {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.triagem-page #risco option[value="vermelho"] {
+    color: #c62828;
+    font-weight: 700;
+}
+
+.triagem-page #risco option[value="laranja"] {
+    color: #e87519;
+    font-weight: 700;
+}
+
+.triagem-page #risco option[value="amarelo"] {
+    color: #b38b00;
+    font-weight: 700;
+}
+
+.triagem-page #risco option[value="verde"] {
+    color: #16804b;
+    font-weight: 700;
+}
+
+.triagem-page #risco option[value="azul"] {
+    color: #2465a6;
+    font-weight: 700;
+}
+
+/* =====================================================
+   BOTÕES
+===================================================== */
+
+.triagem-page .form-actions {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-top: 10px;
+}
+
+.triagem-page .form-actions button {
+    min-height: 49px;
+    padding: 0 23px;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+/* FINALIZAR TRIAGEM */
+
+.triagem-page .btn-primary {
+    flex: 1;
+    background: var(--tri-primary);
+    color: #ffffff;
+    border: 1px solid var(--tri-primary);
+}
+
+.triagem-page .btn-primary:hover {
+    background: var(--tri-secondary);
+    border-color: var(--tri-secondary);
+    box-shadow: 0 5px 14px rgba(18, 61, 80, 0.15);
+    transform: translateY(-2px);
+}
+
+.triagem-page .btn-primary:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* LIMPAR */
+
+.triagem-page .btn-secondary {
+    background: #ffffff;
+    color: #536b79;
+    border: 1px solid #d7e1e7;
+}
+
+.triagem-page .btn-secondary:hover {
+    background: #f0f5f7;
+    border-color: #aebfc9;
+    color: var(--tri-primary);
+}
+
+/* =====================================================
+   MENSAGENS
+===================================================== */
+
+.triagem-page .admin-message {
+    display: none;
+    padding: 13px 16px;
+    margin-top: 20px;
+    border-radius: 7px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.triagem-page .admin-message.success,
+.triagem-page .admin-message.error {
+    display: block;
+}
+
+.triagem-page .admin-message.success {
+    color: #176b50;
+    background: #e5f5ee;
+    border: 1px solid #c4e9d8;
+}
+
+.triagem-page .admin-message.error {
+    color: #a43838;
+    background: #fff0ef;
+    border: 1px solid #f2ceca;
+}
+
+/* =====================================================
+   AVISO INFORMATIVO
+===================================================== */
+
+.triagem-page .setor-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 23px;
+    padding: 20px 23px;
+    background: #e3f0f2;
+    border: 1px solid #cfe2e6;
+    border-radius: 9px;
+}
+
+.triagem-page .setor-info-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--tri-secondary);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+    font-style: italic;
+}
+
+.triagem-page .setor-info strong {
+    display: block;
+    color: var(--tri-primary);
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.triagem-page .setor-info p {
+    color: #607985;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+@media (max-width: 650px) {
+
+    .triagem-page .setor-header {
+        padding: 15px 20px;
+        min-height: 75px;
+    }
+
+    .triagem-page .setor-brand h1 {
+        font-size: 15px;
+    }
+
+    .triagem-page .setor-logo {
+        width: 42px;
+        height: 42px;
+    }
+
+    .triagem-page .btn-sair {
+        padding: 9px 11px;
+        font-size: 11px;
+    }
+
+    .triagem-page .setor-container {
+        margin: 35px auto;
+        padding: 0 15px;
+    }
+
+    .triagem-page .setor-welcome h2 {
+        font-size: 24px;
+    }
+
+    .triagem-page .setor-card {
+        padding: 23px 18px;
+    }
+
+    .triagem-page .form-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .triagem-page .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .triagem-page .form-actions button {
+        width: 100%;
+        flex: none;
+    }
+
+    .triagem-page .setor-info {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .triagem-page .setor-header {
+        flex-wrap: wrap;
+    }
+
+    .triagem-page .setor-brand h1 {
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,433 @@
+
+/* =====================================================
+   HOSPITAL VIDA PLENA - SETOR DE ATENDIMENTO
+   Identidade visual profissional
+===================================================== */
+
+.atendimento-page {
+    --at-primary: #123d50;
+    --at-secondary: #1b6073;
+    --at-accent: #32a89b;
+    --at-background: #edf3f6;
+    --at-text: #243b4a;
+    --at-muted: #758997;
+    --at-border: #dce6eb;
+
+    margin: 0;
+    min-height: 100vh;
+    background: var(--at-background);
+    color: var(--at-text);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* =====================================================
+   CABEÇALHO
+===================================================== */
+
+.atendimento-page .setor-header {
+    width: 100%;
+    min-height: 88px;
+    padding: 16px 7%;
+    background: var(--at-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 4px 18px rgba(18, 61, 80, 0.15);
+}
+
+.atendimento-page .setor-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.atendimento-page .setor-logo {
+    width: 49px;
+    height: 49px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #ffffff;
+    color: var(--at-primary);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+.atendimento-page .setor-brand h1 {
+    color: #ffffff;
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.atendimento-page .setor-brand p {
+    color: #b9d0d9;
+    font-size: 12px;
+    margin: 4px 0 0;
+    letter-spacing: 0.5px;
+}
+
+/* SAIR */
+
+.atendimento-page .btn-sair {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 19px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 7px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.atendimento-page .btn-sair:hover {
+    background: #ffffff;
+    color: var(--at-primary);
+    border-color: #ffffff;
+}
+
+/* =====================================================
+   CONTEÚDO PRINCIPAL
+===================================================== */
+
+.atendimento-page .setor-container {
+    width: 100%;
+    max-width: 950px;
+    margin: 55px auto;
+    padding: 0 25px;
+}
+
+/* =====================================================
+   APRESENTAÇÃO
+===================================================== */
+
+.atendimento-page .setor-welcome {
+    margin-bottom: 30px;
+}
+
+.atendimento-page .setor-tag {
+    display: inline-block;
+    padding: 7px 13px;
+    border-radius: 5px;
+    background: #d8eeeb;
+    color: #197c70;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+}
+
+.atendimento-page .setor-welcome h2 {
+    margin: 0 0 10px;
+    color: var(--at-primary);
+    font-size: 29px;
+    font-weight: 750;
+    letter-spacing: -0.7px;
+}
+
+.atendimento-page .setor-welcome p {
+    margin: 0;
+    color: var(--at-muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* =====================================================
+   CARTÃO DO FORMULÁRIO
+===================================================== */
+
+.atendimento-page .setor-card {
+    background: #ffffff;
+    padding: 35px;
+    border: 1px solid var(--at-border);
+    border-radius: 13px;
+    box-shadow: 0 8px 30px rgba(29, 62, 79, 0.055);
+}
+
+/* CABEÇALHO DO FORMULÁRIO */
+
+.atendimento-page .setor-section-header {
+    padding-bottom: 23px;
+    margin-bottom: 27px;
+    border-bottom: 1px solid #e9eff2;
+}
+
+.atendimento-page .setor-section-header h2 {
+    color: var(--at-primary);
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 0 7px;
+}
+
+.atendimento-page .setor-section-header p {
+    color: var(--at-muted);
+    font-size: 13px;
+    margin: 0;
+}
+
+/* =====================================================
+   CAMPOS DO FORMULÁRIO
+===================================================== */
+
+.atendimento-page #formAtendimento {
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+}
+
+.atendimento-page .form-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+}
+
+.atendimento-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.atendimento-page .form-group label {
+    color: #304c5c;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.atendimento-page .form-group input,
+.atendimento-page .form-group select {
+    width: 100%;
+    height: 49px;
+    padding: 0 15px;
+    background: #f8fafb;
+    border: 1px solid #dce6eb;
+    border-radius: 7px;
+    color: #294252;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: 0.25s;
+}
+
+.atendimento-page .form-group input::placeholder {
+    color: #a2b0ba;
+}
+
+.atendimento-page .form-group input:hover,
+.atendimento-page .form-group select:hover {
+    border-color: #a9c5d0;
+}
+
+.atendimento-page .form-group input:focus,
+.atendimento-page .form-group select:focus {
+    background: #ffffff;
+    border-color: var(--at-accent);
+    box-shadow: 0 0 0 3px rgba(50, 168, 155, 0.11);
+}
+
+/* =====================================================
+   BOTÕES
+===================================================== */
+
+.atendimento-page .form-actions {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-top: 10px;
+}
+
+.atendimento-page .form-actions button {
+    min-height: 48px;
+    padding: 0 23px;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+/* CADASTRAR */
+
+.atendimento-page .btn-primary {
+    flex: 1;
+    background: var(--at-primary);
+    color: #ffffff;
+    border: 1px solid var(--at-primary);
+}
+
+.atendimento-page .btn-primary:hover {
+    background: var(--at-secondary);
+    border-color: var(--at-secondary);
+    box-shadow: 0 5px 14px rgba(18, 61, 80, 0.15);
+    transform: translateY(-2px);
+}
+
+.atendimento-page .btn-primary:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* LIMPAR */
+
+.atendimento-page .btn-secondary {
+    background: #ffffff;
+    color: #536b79;
+    border: 1px solid #d7e1e7;
+}
+
+.atendimento-page .btn-secondary:hover {
+    background: #f0f5f7;
+    border-color: #aebfc9;
+    color: var(--at-primary);
+}
+
+/* =====================================================
+   MENSAGENS
+===================================================== */
+
+.atendimento-page .admin-message {
+    display: none;
+    padding: 13px 16px;
+    margin-top: 20px;
+    border-radius: 7px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.atendimento-page .admin-message.success,
+.atendimento-page .admin-message.error {
+    display: block;
+}
+
+.atendimento-page .admin-message.success {
+    color: #176b50;
+    background: #e5f5ee;
+    border: 1px solid #c4e9d8;
+}
+
+.atendimento-page .admin-message.error {
+    color: #a43838;
+    background: #fff0ef;
+    border: 1px solid #f2ceca;
+}
+
+/* =====================================================
+   INFORMAÇÃO DA PRÓXIMA ETAPA
+===================================================== */
+
+.atendimento-page .setor-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 23px;
+    padding: 20px 23px;
+    background: #e3f0f2;
+    border: 1px solid #cfe2e6;
+    border-radius: 9px;
+}
+
+.atendimento-page .setor-info-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--at-secondary);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+    font-style: italic;
+}
+
+.atendimento-page .setor-info strong {
+    display: block;
+    color: var(--at-primary);
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.atendimento-page .setor-info p {
+    color: #607985;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+@media (max-width: 650px) {
+
+    .atendimento-page .setor-header {
+        padding: 15px 20px;
+        min-height: 75px;
+    }
+
+    .atendimento-page .setor-brand h1 {
+        font-size: 15px;
+    }
+
+    .atendimento-page .setor-logo {
+        width: 42px;
+        height: 42px;
+    }
+
+    .atendimento-page .btn-sair {
+        padding: 9px 11px;
+        font-size: 11px;
+    }
+
+    .atendimento-page .setor-container {
+        margin: 35px auto;
+        padding: 0 15px;
+    }
+
+    .atendimento-page .setor-welcome h2 {
+        font-size: 24px;
+    }
+
+    .atendimento-page .setor-card {
+        padding: 23px 18px;
+    }
+
+    .atendimento-page .form-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .atendimento-page .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .atendimento-page .form-actions button {
+        width: 100%;
+        flex: none;
+    }
+
+    .atendimento-page .setor-info {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .atendimento-page .setor-header {
+        flex-wrap: wrap;
+    }
+
+    .atendimento-page .setor-brand h1 {
+        font-size: 14px;
+    }
+}
