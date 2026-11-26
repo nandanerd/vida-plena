@@ -4,7 +4,227 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Cadastro Simples</title>
-    <link rel="stylesheet" href="/frontend/css/admin.css">
+    <style>
+        
+/* =========================================
+   ADMINISTRAÇÃO - HOSPITAL VIDA PLENA
+   ========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #eef2f7;
+    color: #263445;
+    min-height: 100vh;
+    padding: 45px 20px;
+}
+
+/* CONTAINER PRINCIPAL */
+
+.container {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 38px;
+    border-radius: 14px;
+    border: 1px solid #e1e8f0;
+    box-shadow: 0 12px 35px rgba(25, 45, 70, 0.07);
+}
+
+/* LINK DE VOLTAR */
+
+.container > a {
+    display: inline-block;
+    color: #477da9 !important;
+    font-size: 13px !important;
+    font-weight: 600;
+    text-decoration: none !important;
+    margin-bottom: 25px !important;
+    transition: 0.2s;
+}
+
+.container > a:hover {
+    color: #174f80 !important;
+}
+
+/* BOTÃO ALMOXARIFADO */
+
+.btn-almoxarifadoo {
+    display: block !important;
+    width: 100%;
+    padding: 15px 20px;
+    margin-bottom: 35px;
+    background: #173f67 !important;
+    color: #ffffff !important;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.btn-almoxarifadoo:hover {
+    background: #245b8d !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(23, 63, 103, 0.18);
+}
+
+/* TÍTULOS */
+
+h2 {
+    font-size: 25px;
+    color: #183b5b;
+    font-weight: 700;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e8edf2;
+}
+
+h3 {
+    font-size: 19px;
+    color: #183b5b;
+    margin-bottom: 20px;
+    font-weight: 650;
+}
+
+/* FORMULÁRIO */
+
+#formUsuario {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#formUsuario input,
+#formUsuario select {
+    width: 100%;
+    height: 49px;
+    padding: 0 15px;
+    background: #f8fafc;
+    border: 1px solid #dce4ed;
+    border-radius: 7px;
+    color: #263445;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+#formUsuario input::placeholder {
+    color: #91a0af;
+}
+
+#formUsuario input:focus,
+#formUsuario select:focus {
+    border-color: #397caf;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(57, 124, 175, 0.10);
+}
+
+/* BOTÃO CADASTRAR */
+
+#formUsuario button {
+    height: 49px;
+    margin-top: 5px;
+    background: #2475a8;
+    color: #ffffff;
+    border: none;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+#formUsuario button:hover {
+    background: #185b87;
+    transform: translateY(-1px);
+}
+
+/* DIVISÓRIA */
+
+hr {
+    border: none;
+    border-top: 1px solid #e6ebf0 !important;
+}
+
+/* LISTA DE USUÁRIOS */
+
+#listaUsuarios {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* CARD DE USUÁRIO */
+
+.card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    padding: 17px 20px;
+    background: #f8fafc;
+    border: 1px solid #e3eaf1;
+    border-left: 4px solid #397caf;
+    border-radius: 7px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #526477;
+    transition: 0.2s;
+}
+
+.card:hover {
+    background: #f0f6fb;
+    border-color: #cbdce9;
+    border-left-color: #174f80;
+    transform: translateX(3px);
+}
+
+.card b {
+    color: #183b5b;
+    font-weight: 650;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 20px 12px;
+    }
+
+    .container {
+        padding: 23px 18px;
+        border-radius: 10px;
+    }
+
+    h2 {
+        font-size: 21px;
+    }
+
+    h3 {
+        font-size: 17px;
+    }
+
+    .card {
+        padding: 14px;
+        font-size: 13px;
+    }
+
+    .btn-almoxarifadoo {
+        padding: 14px;
+    }
+}
+
+    </style>
 </head>
 <body>
     <div class="container">
