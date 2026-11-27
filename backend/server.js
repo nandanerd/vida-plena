@@ -9,7 +9,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, "../frontend")));
+const FRONTEND_DIR = path.join(__dirname, "../frontend");
+
+app.use(express.static(FRONTEND_DIR));
 
 const DB_FILE = path.join(__dirname, "db.json");
 
@@ -27,7 +29,7 @@ function bancoVazio() {
         historicoEntradas: []
     };
 }
- 
+
 function readDB() {
     if (!fs.existsSync(DB_FILE)) {
         const db = bancoVazio();
@@ -36,7 +38,10 @@ function readDB() {
     }
 
     try {
-        const db = JSON.parse(fs.readFileSync(DB_FILE, "utf8"));
+        const db = JSON.parse(
+            fs.readFileSync(DB_FILE, "utf8")
+        );
+
         const inicial = bancoVazio();
 
         Object.keys(inicial).forEach(chave => {
@@ -46,6 +51,7 @@ function readDB() {
         });
 
         return db;
+
     } catch (erro) {
         console.error("Erro ao ler banco:", erro);
         throw new Error("Banco de dados inválido.");
@@ -53,7 +59,10 @@ function readDB() {
 }
 
 function writeDB(db) {
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
+    fs.writeFileSync(
+        DB_FILE,
+        JSON.stringify(db, null, 2)
+    );
 }
 
 function normalizar(texto) {
@@ -61,7 +70,29 @@ function normalizar(texto) {
 }
 
 // =====================================
-// USUÁRIOS
+// NORMALIZAR TIPOS DE USUÁRIO
+// =====================================
+
+function normalizarTipo(tipo) {
+    const valor = normalizar(tipo)
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+
+    const tipos = {
+        atendimento: "atendimento",
+        triagem: "triagem",
+        medico: "medico",
+        admin: "admin",
+        medicacao: "medicacoes",
+        medicacoes: "medicacoes",
+        farmacia: "medicacoes"
+    };
+
+    return tipos[valor] || valor;
+}
+
+// =====================================
+// CADASTRAR USUÁRIOS
 // =====================================
 
 app.post("/usuarios", (req, res) => {
@@ -70,18 +101,26 @@ app.post("/usuarios", (req, res) => {
 
         const usuario = String(req.body.usuario || "").trim();
         const senha = String(req.body.senha || "");
-        const tipo = req.body.tipo;
+        const tipo = normalizarTipo(req.body.tipo);
 
         if (!usuario || !senha || !tipo) {
             return res.status(400).json({
+                sucesso: false,
                 erro: "Preencha todos os campos."
             });
         }
 
-  const setores = ["atendimento", "triagem", "medico", "admin", "medicacoes"];
+        const setores = [
+            "atendimento",
+            "triagem",
+            "medico",
+            "admin",
+            "medicacoes"
+        ];
 
         if (!setores.includes(tipo)) {
             return res.status(400).json({
+                sucesso: false,
                 erro: "Setor inválido."
             });
         }
@@ -90,6 +129,7 @@ app.post("/usuarios", (req, res) => {
             normalizar(u.usuario) === normalizar(usuario)
         )) {
             return res.status(409).json({
+                sucesso: false,
                 erro: "Usuário já cadastrado."
             });
         }
@@ -114,18 +154,36 @@ app.post("/usuarios", (req, res) => {
         });
 
     } catch (erro) {
-        res.status(500).json({ erro: erro.message });
+        console.error(erro);
+
+        res.status(500).json({
+            sucesso: false,
+            erro: erro.message
+        });
     }
 });
 
-app.get("/usuarios", (req, res) => {
-    const db = readDB();
+// =====================================
+// LISTAR USUÁRIOS
+// =====================================
 
-    res.json(db.usuarios.map(u => ({
-        id: u.id,
-        usuario: u.usuario,
-        tipo: u.tipo
-    })));
+app.get("/usuarios", (req, res) => {
+    try {
+        const db = readDB();
+
+        res.json(
+            db.usuarios.map(u => ({
+                id: u.id,
+                usuario: u.usuario,
+                tipo: normalizarTipo(u.tipo)
+            }))
+        );
+
+    } catch (erro) {
+        res.status(500).json({
+            erro: "Erro ao listar usuários."
+        });
+    }
 });
 
 // =====================================
@@ -139,6 +197,13 @@ app.post("/login", (req, res) => {
         const usuario = String(req.body.usuario || "").trim();
         const senha = String(req.body.senha || "");
 
+        if (!usuario || !senha) {
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: "Informe usuário e senha."
+            });
+        }
+
         const user = db.usuarios.find(u =>
             normalizar(u.usuario) === normalizar(usuario) &&
             String(u.senha) === senha
@@ -146,18 +211,47 @@ app.post("/login", (req, res) => {
 
         if (!user) {
             return res.status(401).json({
-                erro: "Usuário ou senha inválidos."
+                sucesso: false,
+                mensagem: "Usuário ou senha incorretos."
             });
         }
 
-        res.json({
+        const tipo = normalizarTipo(user.tipo);
+
+        const setoresPermitidos = [
+            "medico",
+            "triagem",
+            "atendimento",
+            "admin",
+            "medicacoes"
+        ];
+
+        if (!setoresPermitidos.includes(tipo)) {
+            return res.status(403).json({
+                sucesso: false,
+                mensagem: "Setor de usuário inválido."
+            });
+        }
+
+        console.log("--------------------------------");
+        console.log("LOGIN REALIZADO");
+        console.log("Usuário:", user.usuario);
+        console.log("Setor:", tipo);
+        console.log("--------------------------------");
+
+        return res.status(200).json({
             sucesso: true,
             usuario: user.usuario,
-            tipo: user.tipo
+            tipo: tipo
         });
 
     } catch (erro) {
-        res.status(500).json({ erro: "Erro no login." });
+        console.error("Erro no login:", erro);
+
+        return res.status(500).json({
+            sucesso: false,
+            mensagem: "Erro interno ao realizar login."
+        });
     }
 });
 
@@ -196,7 +290,9 @@ app.post("/atendimento", (req, res) => {
         });
 
     } catch (erro) {
-        res.status(500).json({ erro: erro.message });
+        res.status(500).json({
+            erro: erro.message
+        });
     }
 });
 
@@ -238,7 +334,9 @@ app.post("/triagem", (req, res) => {
         });
 
     } catch (erro) {
-        res.status(500).json({ erro: erro.message });
+        res.status(500).json({
+            erro: erro.message
+        });
     }
 });
 
@@ -280,7 +378,7 @@ app.get("/pacientes-medico", (req, res) => {
 });
 
 // =====================================
-// ALMOXARIFADO - LISTAR ESTOQUE
+// ESTOQUE - LISTAR
 // =====================================
 
 app.get("/estoque", (req, res) => {
@@ -289,7 +387,7 @@ app.get("/estoque", (req, res) => {
 });
 
 // =====================================
-// ALMOXARIFADO - CADASTRAR MEDICAMENTO
+// ESTOQUE - CADASTRAR MEDICAMENTO
 // =====================================
 
 app.post("/estoque", (req, res) => {
@@ -344,14 +442,14 @@ app.post("/estoque", (req, res) => {
         });
 
     } catch (erro) {
-        res.status(500).json({ erro: erro.message });
+        res.status(500).json({
+            erro: erro.message
+        });
     }
 });
 
 // =====================================
-// ALMOXARIFADO - REPOR OU AJUSTAR ESTOQUE
-// PATCH RECEBE UMA QUANTIDADE DE ALTERAÇÃO
-// Exemplo: 10 adiciona 10; -2 remove 2.
+// ESTOQUE - REPOR OU AJUSTAR
 // =====================================
 
 app.patch("/estoque/:id", (req, res) => {
@@ -405,12 +503,14 @@ app.patch("/estoque/:id", (req, res) => {
         });
 
     } catch (erro) {
-        res.status(500).json({ erro: erro.message });
+        res.status(500).json({
+            erro: erro.message
+        });
     }
 });
 
 // =====================================
-// ALMOXARIFADO - HISTÓRICO
+// HISTÓRICO DO ESTOQUE
 // =====================================
 
 app.get("/historico-estoque", (req, res) => {
@@ -419,7 +519,7 @@ app.get("/historico-estoque", (req, res) => {
 });
 
 // =====================================
-// ALMOXARIFADO - REMOVER MEDICAMENTO
+// REMOVER MEDICAMENTO
 // =====================================
 
 app.delete("/estoque/:id", (req, res) => {
@@ -448,7 +548,9 @@ app.delete("/estoque/:id", (req, res) => {
         });
 
     } catch (erro) {
-        res.status(500).json({ erro: erro.message });
+        res.status(500).json({
+            erro: erro.message
+        });
     }
 });
 
@@ -471,7 +573,7 @@ app.get("/lista-medicacoes", (req, res) => {
 
 // =====================================
 // CONSULTA MÉDICA
-// DESCONTA AUTOMATICAMENTE 1 UNIDADE
+// DESCONTA UMA UNIDADE DO ESTOQUE
 // =====================================
 
 app.post("/consulta", (req, res) => {
@@ -489,9 +591,12 @@ app.post("/consulta", (req, res) => {
             });
         }
 
-        // Localiza o medicamento pelo ID ou nome.
         const medicamento = db.estoque.find(m => {
-            if (medicacaoId !== undefined && medicacaoId !== null && medicacaoId !== "") {
+            if (
+                medicacaoId !== undefined &&
+                medicacaoId !== null &&
+                medicacaoId !== ""
+            ) {
                 return String(m.id) === String(medicacaoId);
             }
 
@@ -510,7 +615,6 @@ app.post("/consulta", (req, res) => {
             });
         }
 
-        // Desconto automático de uma unidade.
         medicamento.quantidade -= 1;
 
         const consulta = {
@@ -527,7 +631,6 @@ app.post("/consulta", (req, res) => {
 
         db.consultas.push(consulta);
 
-        // Marca a triagem como atendida.
         const triagem = db.triagens.find(t =>
             normalizar(t.nome) === normalizar(pacienteNome) &&
             t.status === "aguardando_medico"
@@ -584,14 +687,26 @@ app.get("/tv/chamada", (req, res) => {
 
 app.get("/", (req, res) => {
     res.sendFile(
-        path.join(__dirname, "../frontend/index.html")
+        path.join(FRONTEND_DIR, "index.html")
     );
 });
 
+// =====================================
+// TRATAMENTO DE ERROS
+// =====================================
 
- // ===============================
- // SERVIDOR
- // ===============================
+app.use((err, req, res, next) => {
+    console.error("Erro no servidor:", err);
+
+    res.status(500).json({
+        sucesso: false,
+        erro: "Erro interno do servidor."
+    });
+});
+
+// =====================================
+// SERVIDOR
+// =====================================
 
 const PORT = process.env.PORT || 3000;
 
@@ -601,5 +716,7 @@ app.listen(PORT, () => {
     console.log("       HOSPITAL VIDA PLENA - SISTEMA");
     console.log("==============================================");
     console.log(`Servidor rodando em http://localhost:${PORT}`);
+    console.log("Setor medicacoes habilitado!");
     console.log("==============================================");
 });
+
