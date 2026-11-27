@@ -1,640 +1,628 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Hospital Vida Plena - Médico</title>
+<title>Hospital Vida Plena - Painel Médico</title>
 
 <style>
-    
 
-/* =====================================================
-   HOSPITAL VIDA PLENA
-   PAINEL MÉDICO - DESIGN PROFISSIONAL
-===================================================== */
-
-/* PADRÃO DE DIMENSIONAMENTO */
-
-body:has(.logo-img),
-body:has(.logo-img) *,
-body:has(.logo-img) *::before,
-body:has(.logo-img) *::after {
+* {
     box-sizing: border-box;
 }
 
-/* =====================================================
-   CONFIGURAÇÃO GERAL
-===================================================== */
+:root {
+    --primary: #153650;
+    --secondary: #205b78;
+    --accent: #269e91;
+    --background: #f1f5f9;
+    --text: #263b4c;
+    --muted: #718096;
+    --border: #e2e8f0;
+}
 
-body:has(.logo-img) {
-    --med-primary: #142f49;
-    --med-secondary: #205b78;
-    --med-accent: #269e91;
-    --med-bg: #edf2f6;
-    --med-text: #263b4c;
-    --med-muted: #788b99;
-    --med-border: #dce5ec;
-
+body {
     margin: 0;
     min-height: 100vh;
-    padding: 40px 20px;
-    background: var(--med-bg);
-    color: var(--med-text);
+    padding: 30px 20px;
+    background: var(--background);
+    color: var(--text);
     font-family: "Segoe UI", Arial, sans-serif;
 }
 
-/* =====================================================
-   CONTAINER PRINCIPAL
-===================================================== */
+/* CABEÇALHO */
 
-body:has(.logo-img) .container {
+.topbar {
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.topbar-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.topbar-info strong {
+    font-size: 15px;
+    color: var(--primary);
+}
+
+.topbar-info span {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* BOTÃO SAIR */
+
+.btn-sair {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 20px;
+
+    background: #fff;
+    color: #c0392b;
+
+    border: 1px solid #f0d4d1;
+    border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+
+    transition: .25s;
+}
+
+.btn-sair:hover {
+    background: #c0392b;
+    color: #fff;
+    border-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+/* CONTAINER */
+
+.container {
+    max-width: 1200px;
     width: 100%;
-    max-width: 1150px;
-    margin: 0 auto;
-    padding: 38px;
+    margin: auto;
+    padding: 35px;
 
-    background: #ffffff;
-    border: 1px solid var(--med-border);
-    border-radius: 15px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
 
-    box-shadow: 0 10px 35px rgba(25, 48, 70, 0.07);
+    box-shadow: 0 8px 30px rgba(25, 48, 70, .06);
 }
 
-/* =====================================================
-   LOGO
-===================================================== */
+/* IDENTIDADE VISUAL */
 
-body:has(.logo-img) .logo-img {
-    display: block;
-    width: 95px;
-    height: 95px;
-    object-fit: contain;
-    margin: 0 auto 15px;
-}
-
-/* =====================================================
-   TÍTULOS
-===================================================== */
-
-body:has(.logo-img) h2 {
-    color: var(--med-primary);
-    font-size: 24px;
-    font-weight: 750;
-    margin: 0 0 22px;
-}
-
-body:has(.logo-img) .container > h2:first-of-type {
+.header {
     text-align: center;
-    font-size: 28px;
     margin-bottom: 35px;
 }
 
-body:has(.logo-img) h3 {
-    color: var(--med-secondary);
-    font-size: 14px;
-    font-weight: 700;
-    margin: 19px 0 7px;
+.logo-img {
+    width: 95px;
+    height: 95px;
+    object-fit: contain;
+    margin-bottom: 12px;
 }
 
-/* =====================================================
-   ÁREA DOS PACIENTES
-===================================================== */
+.header h1 {
+    color: var(--primary);
+    font-size: 27px;
+    margin: 0;
+    font-weight: 750;
+}
+
+.header p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+/* TÍTULOS */
+
+.section-title {
+    color: var(--primary);
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 22px;
+}
+
+.section-subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: -15px;
+    margin-bottom: 22px;
+}
+
+/* PACIENTES */
 
 #pacientes {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    gap: 18px;
-    margin: 20px 0 35px;
-    min-width: 0;
+    gap: 20px;
+    margin-bottom: 35px;
 }
 
-/* =====================================================
-   CARTÃO DE PACIENTE
-===================================================== */
+/* CARTÕES */
 
-body:has(.logo-img) .card {
-    position: relative;
+.card {
+    background: #fbfdff;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 11px;
+
+    padding: 22px;
     min-width: 0;
-    padding: 23px;
 
-    background: #f9fbfc;
-    border: 1px solid #e0e8ed;
-    border-left: 4px solid #269e91;
-    border-radius: 10px;
-
-    transition: 0.25s ease;
+    transition: .25s;
 }
 
-body:has(.logo-img) .card:hover {
-    background: #ffffff;
-    border-color: #cbdce5;
-    border-left-color: #205b78;
-    box-shadow: 0 8px 22px rgba(27, 65, 88, 0.08);
+.card:hover {
     transform: translateY(-3px);
+    box-shadow: 0 9px 22px rgba(27, 65, 88, .09);
+    border-color: #cbdce5;
 }
 
-body:has(.logo-img) .card h2 {
-    font-size: 19px;
+.card h2 {
+    font-size: 18px;
+    color: var(--primary);
     margin: 0 0 16px;
-    padding-bottom: 13px;
-    border-bottom: 1px solid #e5ebef;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
 }
 
-body:has(.logo-img) .card p {
-    color: #607483;
+.card p {
     font-size: 13px;
+    color: #647789;
     line-height: 1.6;
-    margin: 5px 0;
+    margin: 6px 0;
     overflow-wrap: anywhere;
 }
 
-body:has(.logo-img) .card p b {
+.card p b {
     color: #29475c;
 }
 
-/* TÍTULOS DAS INFORMAÇÕES CLÍNICAS */
-
-body:has(.logo-img) .card h3 {
-    padding-top: 5px;
-    margin-top: 14px;
-    color: #205b78;
+.card h3 {
+    color: var(--secondary);
     font-size: 13px;
+    margin: 17px 0 6px;
 }
 
-/* =====================================================
-   BOTÃO ATENDER
-===================================================== */
+/* BOTÃO ATENDER */
 
-body:has(.logo-img) .card button {
+.card button {
     width: 100%;
     height: 43px;
     margin-top: 20px;
 
-    background: #205b78;
-    color: #ffffff;
+    background: var(--secondary);
+    color: white;
+
     border: none;
     border-radius: 7px;
 
-    font-size: 13px;
     font-weight: 700;
+    font-size: 13px;
     cursor: pointer;
 
-    transition: 0.25s;
+    transition: .25s;
 }
 
-body:has(.logo-img) .card button:hover {
-    background: #142f49;
-    box-shadow: 0 5px 13px rgba(20, 47, 73, 0.15);
+.card button:hover {
+    background: var(--primary);
+    transform: translateY(-2px);
 }
 
-/* =====================================================
-   DIVISÓRIA
-===================================================== */
+/* DIVISÓRIA */
 
-body:has(.logo-img) hr {
+hr {
     border: none;
     height: 1px;
-    background: #e3eaf0;
+    background: var(--border);
     margin: 35px 0;
 }
 
-/* =====================================================
-   CONSULTA MÉDICA
-===================================================== */
+/* CONSULTA */
 
-body:has(.logo-img) .container > h2:last-of-type {
-    padding-bottom: 16px;
-    border-bottom: 1px solid #e7edf1;
+.consulta-header {
+    margin-bottom: 25px;
 }
 
-/* =====================================================
-   CAMPOS
-===================================================== */
+.consulta-header h2 {
+    color: var(--primary);
+    font-size: 21px;
+    margin: 0 0 8px;
+}
 
-body:has(.logo-img) .container > input,
-body:has(.logo-img) .container > select,
-body:has(.logo-img) .container > textarea {
+.consulta-header p {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+}
+
+/* CAMPOS */
+
+.container > input,
+.container > select,
+.container > textarea {
     display: block;
     width: 100%;
-    max-width: 100%;
-    height: 49px;
+    height: 48px;
+
     padding: 0 15px;
     margin-bottom: 16px;
 
-    background: #f8fafb;
+    background: #f8fafc;
     border: 1px solid #dce5ec;
-    border-radius: 7px;
+    border-radius: 8px;
 
-    color: #294252;
     font-family: inherit;
     font-size: 14px;
+    color: var(--text);
 
     outline: none;
-    transition: 0.25s;
+    transition: .25s;
 }
 
-body:has(.logo-img) .container > textarea {
-    height: 115px;
+.container > textarea {
+    height: 120px;
     padding: 14px 15px;
     resize: vertical;
 }
 
-body:has(.logo-img) .container > input::placeholder,
-body:has(.logo-img) .container > textarea::placeholder {
+.container input:focus,
+.container select:focus,
+.container textarea:focus {
+    background: white;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(38, 158, 145, .12);
+}
+
+.container input::placeholder,
+.container textarea::placeholder {
     color: #9aaab5;
 }
 
-body:has(.logo-img) .container > input:focus,
-body:has(.logo-img) .container > select:focus,
-body:has(.logo-img) .container > textarea:focus {
-    background: #ffffff;
-    border-color: #269e91;
-    box-shadow: 0 0 0 3px rgba(38, 158, 145, 0.10);
-}
+/* BOTÃO SALVAR */
 
-/* =====================================================
-   BOTÃO SALVAR CONSULTA
-===================================================== */
-
-body:has(.logo-img) .container > button {
+.btn-salvar {
     width: 100%;
     min-height: 49px;
 
-    background: #269e91;
-    color: #ffffff;
+    background: var(--accent);
+    color: white;
+
     border: none;
-    border-radius: 7px;
+    border-radius: 8px;
 
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
 
-    transition: 0.25s;
+    transition: .25s;
 }
 
-body:has(.logo-img) .container > button:hover {
+.btn-salvar:hover {
     background: #197e74;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(38, 158, 145, 0.18);
+    box-shadow: 0 5px 15px rgba(38, 158, 145, .2);
 }
 
-/* =====================================================
-   RESPONSIVIDADE
-===================================================== */
+/* RESPONSIVIDADE */
 
 @media (max-width: 700px) {
 
-    body:has(.logo-img) {
-        padding: 18px 12px;
+    body {
+        padding: 15px 10px;
     }
 
-    body:has(.logo-img) .container {
+    .container {
         padding: 23px 17px;
     }
 
-    body:has(.logo-img) .container > h2:first-of-type {
+    .topbar {
+        margin-bottom: 15px;
+    }
+
+    .header h1 {
         font-size: 23px;
+    }
+
+    .logo-img {
+        width: 75px;
+        height: 75px;
     }
 
     #pacientes {
         grid-template-columns: 1fr;
     }
 
-    body:has(.logo-img) .card {
+    .card {
         padding: 19px;
     }
 
-    body:has(.logo-img) .logo-img {
-        width: 75px;
-        height: 75px;
-    }
 }
 
 </style>
-
 </head>
 
-
 <body>
+
+<!-- CABEÇALHO SUPERIOR -->
+
+<div class="topbar">
+
+    <div class="topbar-info">
+        <strong>HOSPITAL VIDA PLENA</strong>
+        <span>Sistema de Gestão Hospitalar</span>
+    </div>
+
+    <a href="index.html" class="btn-sair">
+        ← Sair
+    </a>
+
+</div>
 
 
 <div class="container">
 
+    <!-- IDENTIDADE -->
 
-<img src="Logo Hospitalar Vida Plena.png" class="logo-img">
+    <div class="header">
+
+        <img
+            src="Logo Hospitalar Vida Plena.png"
+            class="logo-img"
+            alt="Logo Hospital Vida Plena"
+        >
+
+        <h1>Painel Médico</h1>
+
+        <p>Gerenciamento de pacientes e consultas médicas</p>
+
+    </div>
 
 
-<h2>Painel Médico</h2>
+    <!-- LISTA DE PACIENTES -->
+
+    <h2 class="section-title">Pacientes aguardando atendimento</h2>
+
+    <p class="section-subtitle">
+        Selecione um paciente para iniciar o atendimento.
+    </p>
+
+    <div id="pacientes">
+        <!-- Os pacientes serão carregados aqui -->
+    </div>
 
 
-<div id="pacientes">
+    <hr>
 
 
-<!-- OS DADOS VÃO APARECER AQUI -->
+    <!-- CONSULTA MÉDICA -->
+
+    <div class="consulta-header">
+
+        <h2>Consulta Médica</h2>
+
+        <p>
+            Preencha as informações abaixo para registrar o atendimento.
+        </p>
+
+    </div>
+
+
+    <input
+        id="paciente"
+        type="text"
+        placeholder="Nome do paciente"
+    >
+
+    <input
+        id="diagnostico"
+        type="text"
+        placeholder="Diagnóstico"
+    >
+
+    <select id="medicacao">
+
+        <option value="">Selecione a medicação</option>
+
+        <option>Dipirona</option>
+        <option>Paracetamol</option>
+        <option>Amoxicilina</option>
+        <option>Ibuprofeno</option>
+        <option>Outro</option>
+
+    </select>
+
+
+    <textarea
+        id="obs"
+        placeholder="Observações médicas..."
+    ></textarea>
+
+
+    <button class="btn-salvar" onclick="salvar()">
+        Salvar Consulta
+    </button>
 
 </div>
-
-
-
-<hr>
-
-
-<h2>Consulta Médica</h2>
-
-
-<input
-    id="paciente"
-    type="text"
-    placeholder="Digite o nome do paciente"
->
-
-
-<input id="diagnostico" placeholder="Diagnóstico">
-
-
-<select id="medicacao">
-
-<option value="">Selecione a medicação</option>
-
-<option>Dipirona</option>
-
-<option>Paracetamol</option>
-
-<option>Amoxicilina</option>
-
-<option>Ibuprofeno</option>
-
-<option>Outro</option>
-
-
-</select>
-
-
-<textarea id="obs" placeholder="Observações"></textarea>
-
-
-<button onclick="salvar()">
-Salvar Consulta
-</button>
-
-
-
-</div>
-
-
-
 
 
 <script>
 
+let pacientes = [];
 
-let pacientes=[];
 
+function carregarPacientes() {
 
+    fetch("/pacientes-medico")
 
-function carregarPacientes(){
+    .then(res => res.json())
 
+    .then(data => {
 
-fetch("/pacientes-medico")
+        pacientes = data;
 
+        const div = document.getElementById("pacientes");
 
-.then(res=>res.json())
+        div.innerHTML = "";
 
 
-.then(data=>{
+        data.forEach((p, index) => {
 
+            div.innerHTML += `
 
-pacientes=data;
+                <div class="card">
 
+                    <h2>${p.nome}</h2>
 
-const div=document.getElementById("pacientes");
+                    <p>
+                        <b>CPF:</b> ${p.cpf}
+                    </p>
 
+                    <p>
+                        <b>Tipo:</b> ${p.tipo}
+                    </p>
 
-div.innerHTML="";
+                    <h3>🩺 Sintomas</h3>
 
+                    <p>
+                        ${
+                            Array.isArray(p.sintomas)
+                            ? p.sintomas.join(", ")
+                            : p.sintomas || "Não informado"
+                        }
+                    </p>
 
+                    <h3>🌡 Temperatura</h3>
 
-data.forEach((p,index)=>{
+                    <p>
+                        ${p.temperatura || "Não informado"} °C
+                    </p>
 
+                    <h3>🚨 Risco</h3>
 
-div.innerHTML += `
+                    <p>
+                        ${p.risco || "Não classificado"}
+                    </p>
 
+                    <h3>⚠️ Alergia</h3>
 
-<div class="card">
+                    <p>
+                        ${p.alergia || "Nenhuma"}
+                    </p>
 
+                    <h3>📝 Observação da triagem</h3>
 
-<h2>
-${p.nome}
-</h2>
+                    <p>
+                        ${p.observacao || "Nenhuma"}
+                    </p>
 
+                    <button onclick="selecionar(${index})">
+                        Atender paciente
+                    </button>
 
+                </div>
 
-<p>
+            `;
 
-<b>CPF:</b>
+        });
 
-${p.cpf}
+    })
 
-</p>
-
-
-
-<p>
-
-<b>Tipo:</b>
-
-${p.tipo}
-
-</p>
-
-
-
-
-<h3>
-🩺 Sintomas
-</h3>
-
-
-<p id="sintomas">
-
-${
-Array.isArray(p.sintomas)
-
-?
-p.sintomas.join(", ")
-
-:
-p.sintomas || "Não informado"
-
-}
-
-</p>
-
-
-
-
-<h3>
-🌡 Temperatura
-</h3>
-
-
-<p>
-
-${p.temperatura || "Não informado"}
-
-°C
-
-</p>
-
-
-
-
-
-<h3>
-🚨 Risco
-</h3>
-
-
-<p>
-
-${p.risco || "Não classificado"}
-
-</p>
-
-
-
-
-
-<h3>
-⚠️ Alergia
-</h3>
-
-
-<p>
-
-${p.alergia || "Nenhuma"}
-
-</p>
-
-
-
-
-
-<h3>
-📝 Observação da triagem
-</h3>
-
-
-<p>
-
-${p.observacao || "Nenhuma"}
-
-</p>
-
-
-
-
-<button onclick="selecionar(${index})">
-
-Atender
-
-</button>
-
-
-
-</div>
-
-
-
-`;
-
-
-
-});
-
-
-});
-
+    .catch(error => {
+        console.error("Erro ao carregar pacientes:", error);
+    });
 
 }
 
 
+function selecionar(index) {
 
+    let p = pacientes[index];
 
-function selecionar(index){
+    document.getElementById("paciente").value = p.nome;
 
-
-let p=pacientes[index];
-
-
-document.getElementById("paciente").value=p.nome;
-
+    document.getElementById("diagnostico").focus();
 
 }
 
 
+function salvar() {
 
+    fetch("/consulta", {
 
-function salvar(){
+        method: "POST",
 
+        headers: {
+            "Content-Type": "application/json"
+        },
 
+        body: JSON.stringify({
 
-fetch("/consulta",{
+            paciente:
+                document.getElementById("paciente").value,
 
+            diagnostico:
+                document.getElementById("diagnostico").value,
 
-method:"POST",
+            medicacao:
+                document.getElementById("medicacao").value,
 
+            obs:
+                document.getElementById("obs").value
 
-headers:{
+        })
 
+    })
 
-"Content-Type":"application/json"
+    .then(res => {
 
-},
+        if (!res.ok) {
+            throw new Error("Erro ao salvar consulta");
+        }
 
+        alert("Consulta salva com sucesso!");
 
-body:JSON.stringify({
+        document.getElementById("diagnostico").value = "";
+        document.getElementById("medicacao").value = "";
+        document.getElementById("obs").value = "";
+        document.getElementById("paciente").value = "";
 
+        carregarPacientes();
 
-paciente:
-document.getElementById("paciente").value,
+    })
 
+    .catch(error => {
 
-diagnostico:
-document.getElementById("diagnostico").value,
+        console.error(error);
 
+        alert("Não foi possível salvar a consulta.");
 
-medicacao:
-document.getElementById("medicacao").value,
+    });
 
-
-obs:
-document.getElementById("obs").value
-
-
-})
-
-
-})
-
-
-.then(()=>{
-
-
-alert("Consulta salva");
+}
 
 
 carregarPacientes();
-
-
-});
-
-}
-carregarPacientes();
-
 
 </script>
+
 </body>
 </html>
