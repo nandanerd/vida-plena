@@ -21,6 +21,12 @@
       "senha": "123",
       "tipo": "atendimento"
     },
+        {
+      "id": 1792589165202,
+      "usuario": "medico",
+      "senha": "123",
+      "tipo": "medico"
+    },
     {
       "id": 1792589165201,
       "usuario": "aaaa",
