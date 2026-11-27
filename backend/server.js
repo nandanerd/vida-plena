@@ -78,7 +78,7 @@ app.post("/usuarios", (req, res) => {
             });
         }
 
-        const setores = ["atendimento", "triagem", "medico"];
+       const setores = ["atendimento", "triagem", "medico", "admin"];
 
         if (!setores.includes(tipo)) {
             return res.status(400).json({
